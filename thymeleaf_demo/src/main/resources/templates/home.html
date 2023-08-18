@@ -4,8 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+
+    <style>
+      header,
+      footer {
+        padding: 20px;
+      }
+      header {
+        background-color: antiquewhite;
+      }
+
+      footer {
+        background-color: rgb(227, 139, 139);
+      }
+    </style>
   </head>
   <body>
-    <h1 th:text="'Hello my friend: ' +  ${username}"></h1>
+    <!-- replace the div tag with the components/header fragment -->
+    <div th:replace="~{components/header}"></div>
+
+    <h1>This is the Body</h1>
+
+    <!-- insert the something fragment as the body of div tag -->
+    <div th:insert="~{components/footer :: something}"></div>
   </body>
 </html>
