@@ -48,15 +48,27 @@ Author URL: http://w3layouts.com
           <h3 class="title-style">Contact Us</h3>
         </div>
         <div class="row contact-block">
+          <ul>
+            <li
+              class="alert alert-danger"
+              role="alert"
+              th:each="error : ${#fields.errors('contact.*')}"
+              th:text="${error}"
+            ></li>
+          </ul>
           <div class="col-md-7 contact-right">
-            <form th:action="@{/saveMsg}" method="post" class="signin-form">
+            <form
+              th:action="@{/saveMsg}"
+              method="post"
+              th:object="${contact}"
+              class="signin-form"
+            >
               <div class="input-grids">
                 <div class="row">
                   <div class="col-sm-6">
                     <input
                       type="text"
-                      name="name"
-                      id="name"
+                      th:field="*{name}"
                       placeholder="Your Name"
                       class="contact-input"
                     />
@@ -64,8 +76,7 @@ Author URL: http://w3layouts.com
                   <div class="col-sm-6">
                     <input
                       type="text"
-                      name="mobileNum"
-                      id="mobileNum"
+                      th:field="*{mobileNum}"
                       placeholder="Your Mobile Number"
                       class="contact-input"
                     />
@@ -73,8 +84,7 @@ Author URL: http://w3layouts.com
                 </div>
                 <input
                   type="text"
-                  name="email"
-                  id="email"
+                  th:field="*{email}"
                   placeholder="Your Email"
                   class="contact-input"
                 />
