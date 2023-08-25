@@ -5,7 +5,12 @@ import org.springframework.stereotype.Service;
 import com.example.easy_school_app.models.Contact;
 
 @Service
+// @SessionScope
 public class ContactService {
+
+    public ContactService() {
+        System.out.println("Contact service is created!");
+    }
 
     public boolean saveMessageToDB(Contact contact) {
         boolean isSaved = true;
