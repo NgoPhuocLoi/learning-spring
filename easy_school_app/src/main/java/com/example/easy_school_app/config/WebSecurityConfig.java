@@ -11,10 +11,16 @@ public class WebSecurityConfig {
 
     @Bean
     SecurityFilterChain defauSecurityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((request) -> request.anyRequest().authenticated())
-                .formLogin(Customizer.withDefaults())
-                .httpBasic(Customizer.withDefaults());
+        // http.authorizeHttpRequests(
+        // (request) -> request.anyRequest().authenticated())
+        // .formLogin(Customizer.withDefaults())
+        // .httpBasic(Customizer.withDefaults());
 
+        http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(
+                request -> request.requestMatchers("/", "/home").permitAll()
+                        .requestMatchers("/assets/**").permitAll()
+                        .anyRequest().authenticated())
+                .formLogin(Customizer.withDefaults());
         return http.build();
     }
 }
