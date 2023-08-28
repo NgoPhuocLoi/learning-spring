@@ -15,6 +15,7 @@ public class DashboardController {
         String roles = authentication.getAuthorities().toString();
         model.addAttribute("username", username);
         model.addAttribute("roles", roles);
-        return "dashboard.html";
+        throw new RuntimeException("This is a deliberate exception thrown to check the exception handler :>!");
+        // return "dashboard.html";
     }
 }
