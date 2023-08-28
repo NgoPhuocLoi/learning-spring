@@ -19,7 +19,7 @@ public class WebSecurityConfig {
                 // .formLogin(Customizer.withDefaults())
                 // .httpBasic(Customizer.withDefaults());
 
-                http.csrf(csrf -> csrf.disable()).authorizeHttpRequests(
+                http.csrf(csrf -> csrf.ignoringRequestMatchers("/saveMsg")).authorizeHttpRequests(
                                 request -> request.requestMatchers("/dashboard").authenticated()
                                                 .requestMatchers("/assets/**").permitAll()
                                                 .anyRequest().permitAll())
