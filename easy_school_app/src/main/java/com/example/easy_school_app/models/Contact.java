@@ -2,9 +2,12 @@ package com.example.easy_school_app.models;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-public class Contact {
+@EqualsAndHashCode(callSuper = false)
+public class Contact extends BaseEntity {
+    private int contactId;
     @NotBlank(message = "Name must not be blank")
     private String name;
 
@@ -13,5 +16,6 @@ public class Contact {
     private String email;
     private String subject;
     private String message;
+    private String status;
 
 }
