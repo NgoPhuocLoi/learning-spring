@@ -1,6 +1,5 @@
 package com.example.easy_school_app.controllers;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,18 +11,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.easy_school_app.models.Holiday;
-import com.example.easy_school_app.repositories.HolidayRepo;
+import com.example.easy_school_app.repositories.HolidayRepositoryJPA;
 
 @Controller
 public class HolidaysController {
+    // @Autowired
+    // HolidayRepo holidayRepo;
     @Autowired
-    HolidayRepo holidayRepo;
+    HolidayRepositoryJPA holidayRepositoryJPA;
 
     @GetMapping("/holidays")
     public String displayHolidaysPage(Model model,
             @RequestParam(required = false, defaultValue = "true") boolean festival,
             @RequestParam(required = false, defaultValue = "true") boolean federal) {
-        List<Holiday> holidays = this.holidayRepo.getAllHolidays();
+        List<Holiday> holidays = this.holidayRepositoryJPA.findAll();
         model.addAttribute("hasFestival", festival);
         model.addAttribute("hasFederal", federal);
         for (var type : Holiday.Type.values()) {
@@ -36,7 +37,7 @@ public class HolidaysController {
     @GetMapping("/holidays/{display}")
     public String displayHolidaysWithPathParams(Model model, @PathVariable String display) {
         model.addAttribute("display", display);
-        List<Holiday> holidays = this.holidayRepo.getAllHolidays();
+        List<Holiday> holidays = this.holidayRepositoryJPA.findAll();
         if (display != null) {
             model.addAttribute("hasFestival", (display.equals("all") || display.equals("festival")));
             model.addAttribute("hasFederal", (display.equals("all") || display.equals("federal")));
