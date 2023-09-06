@@ -22,7 +22,9 @@ public class WebSecurityConfig {
                 // .formLogin(Customizer.withDefaults())
                 // .httpBasic(Customizer.withDefaults());
                 MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
-                http.csrf(csrf -> csrf.ignoringRequestMatchers(mvcMatcherBuilder.pattern("/saveMsg")))
+                http.csrf(csrf -> csrf
+                                .ignoringRequestMatchers("/saveMsg")
+                                .ignoringRequestMatchers("/public/**"))
                                 .authorizeHttpRequests(
                                                 request -> request
                                                                 .requestMatchers(
@@ -30,6 +32,7 @@ public class WebSecurityConfig {
                                                                 .authenticated()
                                                                 .requestMatchers("/displayMessages").hasRole("ADMIN")
                                                                 .requestMatchers("/closeMsg").hasRole("ADMIN")
+                                                                .requestMatchers("/public/**").permitAll()
                                                                 .anyRequest().permitAll())
                                 .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/dashboard")
                                                 .failureUrl("/login?error=true").permitAll())
