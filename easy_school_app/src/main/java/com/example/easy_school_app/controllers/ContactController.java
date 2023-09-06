@@ -1,7 +1,6 @@
 package com.example.easy_school_app.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -67,9 +66,8 @@ public class ContactController {
     }
 
     @GetMapping("/closeMsg")
-    public String closeMessage(@RequestParam int id, Authentication authentication) {
-        System.out.println(authentication.getName());
-        this.contactService.updateMessageStatus(id, authentication.getName());
+    public String closeMessage(@RequestParam int id) {
+        this.contactService.updateMessageStatus(id);
         return "redirect:/displayMessages";
     }
 }

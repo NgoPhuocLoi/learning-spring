@@ -1,15 +1,13 @@
 package com.example.easy_school_app.services;
 
-import java.time.LocalDateTime;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.example.easy_school_app.constants.ContactConstant;
 import com.example.easy_school_app.models.Contact;
-import com.example.easy_school_app.repositories.ContactRepo;
 import com.example.easy_school_app.repositories.ContactRepositoryJPA;
 
 @Service
@@ -44,8 +42,6 @@ public class ContactService {
 
     public boolean saveMessageToDB(Contact contact) {
         contact.setStatus(ContactConstant.OPEN);
-        contact.setCreatedBy(ContactConstant.ANONYMOUS);
-        contact.setCreatedAt(LocalDateTime.now());
         Contact savedContact = this.contactRepositoryJPA.save(contact);
         return (savedContact != null && savedContact.getContactId() > 0);
     }
@@ -57,11 +53,9 @@ public class ContactService {
         return contacts;
     }
 
-    public boolean updateMessageStatus(int id, String updatedPerson) {
+    public boolean updateMessageStatus(int id) {
         Optional<Contact> contact = this.contactRepositoryJPA.findById(id);
         contact.ifPresent(c -> {
-            c.setUpdatedAt(LocalDateTime.now());
-            c.setUpdatedBy(updatedPerson);
             c.setStatus(ContactConstant.CLOSED);
         });
 
