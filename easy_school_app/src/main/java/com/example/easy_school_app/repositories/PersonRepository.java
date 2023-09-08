@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.example.easy_school_app.models.Person;
 
 @Repository
-public interface PersonRepositoty extends JpaRepository<Person, Integer> {
-
+public interface PersonRepository extends JpaRepository<Person, Integer> {
+    Person findByEmail(String email);
 }
