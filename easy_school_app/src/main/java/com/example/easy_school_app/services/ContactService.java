@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.easy_school_app.constants.ContactConstant;
+import com.example.easy_school_app.constants.AppConstant;
 import com.example.easy_school_app.models.Contact;
 import com.example.easy_school_app.repositories.ContactRepositoryJPA;
 
@@ -41,7 +41,7 @@ public class ContactService {
     // }
 
     public boolean saveMessageToDB(Contact contact) {
-        contact.setStatus(ContactConstant.OPEN);
+        contact.setStatus(AppConstant.OPEN);
         Contact savedContact = this.contactRepositoryJPA.save(contact);
         return (savedContact != null && savedContact.getContactId() > 0);
     }
@@ -49,14 +49,14 @@ public class ContactService {
     public List<Contact> getOpennedMessages() {
         // var results = this.contactRepo.getMessagesByStatus(ContactConstant.OPEN);
         // System.out.println(results);
-        var contacts = this.contactRepositoryJPA.findByStatus(ContactConstant.OPEN);
+        var contacts = this.contactRepositoryJPA.findByStatus(AppConstant.OPEN);
         return contacts;
     }
 
     public boolean updateMessageStatus(int id) {
         Optional<Contact> contact = this.contactRepositoryJPA.findById(id);
         contact.ifPresent(c -> {
-            c.setStatus(ContactConstant.CLOSED);
+            c.setStatus(AppConstant.CLOSED);
         });
 
         Contact updatedContact = this.contactRepositoryJPA.save(contact.get());
