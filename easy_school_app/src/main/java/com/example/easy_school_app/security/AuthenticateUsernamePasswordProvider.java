@@ -36,7 +36,7 @@ public class AuthenticateUsernamePasswordProvider implements AuthenticationProvi
         if (person == null || !passwordEncoder.matches(password, person.getPwd()))
             throw new BadCredentialsException("Invalid Credentials!");
 
-        return new UsernamePasswordAuthenticationToken(person.getName(), password,
+        return new UsernamePasswordAuthenticationToken(person.getEmail(), password,
                 getGrantedAuthorities(person.getRole()));
     }
 
