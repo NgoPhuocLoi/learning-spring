@@ -1,5 +1,7 @@
 package com.example.easy_school_app.models;
 
+import java.util.Set;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.CascadeType;
@@ -11,13 +13,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Set;
-
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Setter
+@Getter
 @Entity
 @Table(name = "class")
 public class Classroom extends BaseEntity {

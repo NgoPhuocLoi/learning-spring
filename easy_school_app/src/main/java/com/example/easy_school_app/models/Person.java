@@ -16,15 +16,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
+@Getter
+@Setter
 @Entity
 @FieldsValueMatch.List({
         @FieldsValueMatch(field = "pwd", fieldMatch = "confirmPwd", message = "Password don't match"),

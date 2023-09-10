@@ -18,6 +18,7 @@ import com.example.easy_school_app.repositories.PersonRepository;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
@@ -58,4 +59,54 @@ public class AdminController {
         classRepository.deleteById(id);
         return "redirect:/admin/displayClasses";
     }
+
+    @GetMapping("/displayStudents")
+    public String displayStudents(Model model, @RequestParam int classId, @RequestParam(required = false) boolean error,
+            HttpSession httpSession) {
+        Optional<Classroom> cls = classRepository.findById(classId);
+        model.addAttribute("person", new Person());
+        model.addAttribute("class", cls.get());
+        httpSession.setAttribute("currentCls", cls.get());
+
+        if (error) {
+            model.addAttribute("errorMessage", "Student with this is email was not existed!");
+        }
+
+        return "students.html";
+    }
+
+    @PostMapping("/addStudent")
+    public String addStudent(@ModelAttribute("person") Person person, Errors errors, Model model,
+            HttpSession httpSession) {
+        Classroom currentCls = (Classroom) httpSession.getAttribute("currentCls");
+        // if (errors.hasErrors())
+        // return "redirect:/admin/displayStudents?classId=" + currentCls.getClassId() +
+        // "&error=true";
+        Person student = personRepository.findByEmail(person.getEmail());
+        System.out.println("Email:: " + person.getEmail());
+        System.out.println("Email:: " + student);
+
+        if (student == null) {
+            return "redirect:/admin/displayStudents?classId=" + currentCls.getClassId() +
+                    "&error=true";
+        }
+
+        student.setClassroom(currentCls);
+        personRepository.save(student);
+        currentCls.getPersons().add(student);
+        classRepository.save(currentCls);
+        return "redirect:/admin/displayStudents?classId=" + currentCls.getClassId();
+    }
+
+    @RequestMapping("/deleteStudent")
+    public String deleteStudent(@RequestParam int personId, HttpSession session) {
+        Optional<Person> student = personRepository.findById(personId);
+        Classroom currentCls = (Classroom) session.getAttribute("currentCls");
+        student.get().setClassroom(null);
+        personRepository.save(student.get());
+        currentCls.getPersons().remove(student.get());
+        classRepository.save(currentCls);
+        return "redirect:/admin/displayStudents?classId=" + currentCls.getClassId();
+    }
+
 }
