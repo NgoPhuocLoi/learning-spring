@@ -1,6 +1,7 @@
 package com.example.easy_school_app.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -117,7 +118,8 @@ public class AdminController {
 
     @GetMapping("/displayCourses")
     public String displayCourses(Model model) {
-        List<Courses> courses = coursesRepository.findAll();
+        // List<Courses> courses = coursesRepository.findByOrderByNameDesc();
+        List<Courses> courses = coursesRepository.findAll(Sort.by("name").ascending());
         model.addAttribute("course", new Courses());
         model.addAttribute("courses", courses);
         return "courses_admin.html";
