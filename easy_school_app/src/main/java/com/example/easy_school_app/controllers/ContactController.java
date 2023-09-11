@@ -1,6 +1,9 @@
 package com.example.easy_school_app.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -59,9 +62,23 @@ public class ContactController {
     }
 
     @GetMapping("/displayMessages")
-    public String displayMessages(Model model) {
-        var results = this.contactService.getOpennedMessages();
-        model.addAttribute("contactMsgs", results);
+    public String displayMessages(@RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "email") String sortField,
+            @RequestParam(required = false, defaultValue = "asc") String sortDir, Model model) {
+        Pageable pageable = PageRequest.of(page - 1, 5,
+                (sortDir.equals("asc")) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending());
+        var results = this.contactService.getOpennedMessages(pageable);
+
+        String reverseSortDir = sortDir.equals("asc") ? "desc" : "asc";
+
+        model.addAttribute("contactMsgs", results.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("reverseSortDir", reverseSortDir);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("totalPages", results.getTotalPages());
+        model.addAttribute("totalMsgs", results.getTotalElements());
+
         return "messages.html";
     }
 

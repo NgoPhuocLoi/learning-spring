@@ -1,9 +1,10 @@
 package com.example.easy_school_app.services;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.easy_school_app.constants.AppConstant;
@@ -46,10 +47,10 @@ public class ContactService {
         return (savedContact != null && savedContact.getContactId() > 0);
     }
 
-    public List<Contact> getOpennedMessages() {
+    public Page<Contact> getOpennedMessages(Pageable pageable) {
         // var results = this.contactRepo.getMessagesByStatus(ContactConstant.OPEN);
         // System.out.println(results);
-        var contacts = this.contactRepositoryJPA.findByStatus(AppConstant.OPEN);
+        var contacts = this.contactRepositoryJPA.findByStatus(AppConstant.OPEN, pageable);
         return contacts;
     }
 

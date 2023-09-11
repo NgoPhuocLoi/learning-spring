@@ -1,14 +1,18 @@
 package com.example.easy_school_app.repositories;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.example.easy_school_app.models.Contact;
 
-import java.util.List;
-
 @Repository
-public interface ContactRepositoryJPA extends CrudRepository<Contact, Integer> {
+public interface ContactRepositoryJPA extends JpaRepository<Contact, Integer> {
 
     public List<Contact> findByStatus(String status);
+
+    public Page<Contact> findByStatus(String status, Pageable pageable);
 }
