@@ -26,6 +26,9 @@ public class DashboardController {
         model.addAttribute("roles", roles);
 
         session.setAttribute("loggedInPerson", person);
+        if (person.getClassroom() != null && person.getClassroom().getName() != null) {
+            model.addAttribute("enrolledClass", person.getClassroom().getName());
+        }
         // throw new RuntimeException("This is a deliberate exception thrown to check
         // the exception handler :>!");
         return "dashboard.html";
