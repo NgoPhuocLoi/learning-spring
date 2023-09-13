@@ -22,7 +22,8 @@ public class WebSecurityConfig {
                 MvcRequestMatcher.Builder mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspector);
                 http.csrf(csrf -> csrf
                                 .ignoringRequestMatchers("/saveMsg")
-                                .ignoringRequestMatchers("/public/**"))
+                                .ignoringRequestMatchers("/public/**")
+                                .ignoringRequestMatchers("/api/**"))
                                 .authorizeHttpRequests(
                                                 request -> request
                                                                 .requestMatchers(
@@ -35,6 +36,7 @@ public class WebSecurityConfig {
                                                                 .requestMatchers("/public/**").permitAll()
                                                                 .requestMatchers("/displayProfile").authenticated()
                                                                 .requestMatchers("/updateProfile").authenticated()
+                                                                .requestMatchers("/api/**").permitAll()
                                                                 .anyRequest().permitAll())
                                 .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/dashboard")
                                                 .failureUrl("/login?error=true").permitAll())
