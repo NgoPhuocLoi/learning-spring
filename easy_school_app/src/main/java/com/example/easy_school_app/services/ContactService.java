@@ -1,7 +1,5 @@
 package com.example.easy_school_app.services;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -48,19 +46,21 @@ public class ContactService {
     }
 
     public Page<Contact> getOpennedMessages(Pageable pageable) {
-        // var results = this.contactRepo.getMessagesByStatus(ContactConstant.OPEN);
-        // System.out.println(results);
-        var contacts = this.contactRepositoryJPA.findByStatus(AppConstant.OPEN, pageable);
+        // var contacts = this.contactRepositoryJPA.findByStatus(AppConstant.OPEN,
+        // pageable);
+        var contacts = this.contactRepositoryJPA.findContactWithStatusCustomNamedQuery(AppConstant.OPEN, pageable);
+
         return contacts;
     }
 
     public boolean updateMessageStatus(int id) {
-        Optional<Contact> contact = this.contactRepositoryJPA.findById(id);
-        contact.ifPresent(c -> {
-            c.setStatus(AppConstant.CLOSED);
-        });
+        // Optional<Contact> contact = this.contactRepositoryJPA.findById(id);
+        // contact.ifPresent(c -> {
+        // c.setStatus(AppConstant.CLOSED);
+        // });
 
-        Contact updatedContact = this.contactRepositoryJPA.save(contact.get());
-        return updatedContact != null && updatedContact.getUpdatedBy() != null;
+        // Contact updatedContact = this.contactRepositoryJPA.save(contact.get());
+        int result = contactRepositoryJPA.updateContactStatusById(id, AppConstant.CLOSED);
+        return result > 0;
     }
 }
