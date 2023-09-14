@@ -1,14 +1,17 @@
 package com.example.easy_school_app.controllers.api;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -24,6 +27,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("api/contact")
+@CrossOrigin("*")
 public class ContactAPIController {
 
     @Autowired
@@ -64,5 +68,16 @@ public class ContactAPIController {
         contactRepositoryJPA.deleteById(contact.getContactId());
         Response response = new Response("200", "Message was deleted!");
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PatchMapping("/closeMsg")
+    public ResponseEntity<Response> closeMessage(@RequestBody Contact contact) {
+        Optional<Contact> contactFound = contactRepositoryJPA.findById(contact.getContactId());
+        if (!contactFound.isPresent()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Response("400", "Invalid contact's Id"));
+        }
+        contactFound.get().setStatus("CLOSED");
+        contactRepositoryJPA.save(contactFound.get());
+        return ResponseEntity.status(HttpStatus.OK).body(new Response("200", "Closed message!"));
     }
 }
