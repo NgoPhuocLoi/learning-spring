@@ -32,7 +32,7 @@ public class AuthenticateUsernamePasswordProvider implements AuthenticationProvi
         String password = authentication.getCredentials().toString();
 
         Person person = personRepository.findByEmail(email);
-
+        System.out.println("AUTHENDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
         if (person == null || !passwordEncoder.matches(password, person.getPwd()))
             throw new BadCredentialsException("Invalid Credentials!");
 
