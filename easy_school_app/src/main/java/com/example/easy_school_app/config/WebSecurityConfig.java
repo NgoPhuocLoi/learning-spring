@@ -2,6 +2,7 @@ package com.example.easy_school_app.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,11 +37,12 @@ public class WebSecurityConfig {
                                                                 .requestMatchers("/public/**").permitAll()
                                                                 .requestMatchers("/displayProfile").authenticated()
                                                                 .requestMatchers("/updateProfile").authenticated()
-                                                                .requestMatchers("/api/**").permitAll()
+                                                                .requestMatchers("/api/**").authenticated()
                                                                 .anyRequest().permitAll())
                                 .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/dashboard")
                                                 .failureUrl("/login?error=true").permitAll())
-                                .logout(l -> l.logoutUrl("/logout").logoutSuccessUrl("/login?logout=true").permitAll());
+                                .logout(l -> l.logoutUrl("/logout").logoutSuccessUrl("/login?logout=true").permitAll())
+                                .httpBasic(Customizer.withDefaults());
                 return http.build();
         }
 
