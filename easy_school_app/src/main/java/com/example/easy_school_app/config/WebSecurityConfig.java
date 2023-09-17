@@ -38,6 +38,7 @@ public class WebSecurityConfig {
                                                                 .requestMatchers("/displayProfile").authenticated()
                                                                 .requestMatchers("/updateProfile").authenticated()
                                                                 .requestMatchers("/api/**").authenticated()
+                                                                .requestMatchers("/data-api/**").authenticated()
                                                                 .anyRequest().permitAll())
                                 .formLogin(form -> form.loginPage("/login").defaultSuccessUrl("/dashboard")
                                                 .failureUrl("/login?error=true").permitAll())

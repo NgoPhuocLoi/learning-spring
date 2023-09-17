@@ -16,7 +16,7 @@ import com.example.easy_school_app.repositories.PersonRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
-@Controller
+@Controller(value = "profileControllerBean")
 public class ProfileController {
 
     @Autowired

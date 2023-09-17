@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import com.example.easy_school_app.annotations.FieldsValueMatch;
 import com.example.easy_school_app.annotations.PasswordValidator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -51,12 +52,15 @@ public class Person extends BaseEntity {
         @Email(message = "Invalid email address")
         private String email;
         @Transient
+        @JsonIgnore
         private String confirmEmail;
 
         @NotBlank(message = "Password must not be blank!")
         @PasswordValidator(message = "Please choose a stronger password!")
+        @JsonIgnore
         private String pwd;
         @Transient
+        @JsonIgnore
         private String confirmPwd;
 
         @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, targetEntity = Roles.class)
