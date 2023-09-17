@@ -26,12 +26,12 @@ public interface ContactRepositoryJPA extends JpaRepository<Contact, Integer> {
     public Page<Contact> findByStatusCustomJPQL(String status, Pageable pageable);
 
     @Query(value = "SELECT * FROM contact_msg WHERE status = :status", nativeQuery = true)
-    public Page<Contact> findByStatusCustomSQL(String status, Pageable pageable);
+    public List<Contact> findByStatusCustomSQL(String status);
 
     @Query("UPDATE Contact c SET c.status = :status WHERE c.contactId = :contactId")
     @Modifying
     @Transactional
     public int updateContactStatusById(int contactId, String status);
 
-    public Page<Contact> findContactWithStatusCustomNamedQuery(String status, Pageable pageable);
+    public List<Contact> findContactWithStatusCustomNamedQuery(String status);
 }

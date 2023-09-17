@@ -48,7 +48,7 @@ public class ContactService {
     public Page<Contact> getOpennedMessages(Pageable pageable) {
         // var contacts = this.contactRepositoryJPA.findByStatus(AppConstant.OPEN,
         // pageable);
-        var contacts = this.contactRepositoryJPA.findContactWithStatusCustomNamedQuery(AppConstant.OPEN, pageable);
+        var contacts = this.contactRepositoryJPA.findByStatusCustomJPQL(AppConstant.OPEN, pageable);
 
         return contacts;
     }
