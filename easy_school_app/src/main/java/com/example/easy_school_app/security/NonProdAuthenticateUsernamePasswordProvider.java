@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Profile("prod")
-public class AuthenticateUsernamePasswordProvider implements AuthenticationProvider {
+@Profile("!prod")
+public class NonProdAuthenticateUsernamePasswordProvider implements AuthenticationProvider {
     @Autowired
     PersonRepository personRepository;
 
@@ -35,7 +35,7 @@ public class AuthenticateUsernamePasswordProvider implements AuthenticationProvi
 
         Person person = personRepository.findByEmail(email);
         System.out.println("AUTHENDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
-        if (person == null || !passwordEncoder.matches(password, person.getPwd()))
+        if (person == null)
             throw new BadCredentialsException("Invalid Credentials!");
 
         return new UsernamePasswordAuthenticationToken(person.getEmail(), password,
