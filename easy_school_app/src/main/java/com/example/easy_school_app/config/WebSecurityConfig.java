@@ -24,7 +24,8 @@ public class WebSecurityConfig {
                 http.csrf(csrf -> csrf
                                 .ignoringRequestMatchers("/saveMsg")
                                 .ignoringRequestMatchers("/public/**")
-                                .ignoringRequestMatchers("/api/**"))
+                                .ignoringRequestMatchers("/api/**")
+                                .ignoringRequestMatchers("easy-school/actuator/**"))
                                 .authorizeHttpRequests(
                                                 request -> request
                                                                 .requestMatchers(
@@ -33,6 +34,8 @@ public class WebSecurityConfig {
                                                                 .requestMatchers("/displayMessages").hasRole("ADMIN")
                                                                 .requestMatchers("/closeMsg").hasRole("ADMIN")
                                                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                                                .requestMatchers("easy-school/actuator/**")
+                                                                .hasAnyRole("ADMIN")
                                                                 .requestMatchers("/student/**").hasRole("STUDENT")
                                                                 .requestMatchers("/public/**").permitAll()
                                                                 .requestMatchers("/displayProfile").authenticated()
